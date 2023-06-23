@@ -16,7 +16,8 @@ const BaseButton = styled.button`
     rounded-md
     text-white
     text-xs
-    font-semibold
+    font-thin
+    md:font-semibold
     border-transparent
     border-2
     /* focus:outline-none */

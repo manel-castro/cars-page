@@ -143,6 +143,8 @@ const StandaloneCar = styled.div`
 const ButtonsContainer = styled.div`
   ${tw`
       flex
+      mt-4
+      flex-wrap
     `}
 `;
 
@@ -157,8 +159,10 @@ export function TopSection() {
           officiis deleniti ea, architecto sed nemo vero ipsam culpa alias
           incidunt excepturi.
         </Description>
-        <Button text="Book Your Ride"></Button>
-        <Button theme="filled" text="Sell Your Car"></Button>
+        <ButtonsContainer>
+          <Button text="Book Your Ride"></Button>
+          <Button theme="filled" text="Sell Your Car"></Button>
+        </ButtonsContainer>
       </LeftContainer>
       <RightContainer>
         <BlobContainer>
