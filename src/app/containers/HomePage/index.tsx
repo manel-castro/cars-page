@@ -4,6 +4,9 @@ import tw from "twin.macro";
 import { Navbar } from "../../components/navbar";
 import { TopSection } from "./topSection";
 import { BookCard } from "../../components/bookCard";
+import { BookingSteps } from "./bookingSteps";
+import { AboutUs } from "./aboutUs";
+import { TopCars } from "./topCars";
 
 const PageContainer = styled.div`
   ${tw`
@@ -21,7 +24,14 @@ export function HomePage() {
     <PageContainer>
       <Navbar />
       <TopSection />
+      <div style={{ marginTop: "6em" }}></div>
       <BookCard />
+      <div style={{ marginTop: "6em" }}></div>
+      <BookingSteps />
+      <div style={{ marginTop: "6em" }}></div>
+      <AboutUs />
+      <div style={{ marginTop: "6em" }}></div>
+      <TopCars />
     </PageContainer>
   );
 }
