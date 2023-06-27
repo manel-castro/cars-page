@@ -36,7 +36,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "schema:download": "npx apollo service:download --endpoint=http://localhost:9000/graphql ./src/app/graphql-schema.json",
+    "schema:download": "apollo schema:download --endpoint=http://localhost:9000/graphql ./src/app/graphql-schema.json",
     "schema:generate-watch": "npx apollo codegen:generate --localSchemaFile=./src/app/graphql-schema.json --target=typescript --tagName=gql --watch"
   },
   "eslintConfig": {
