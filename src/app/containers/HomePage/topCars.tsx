@@ -10,8 +10,10 @@ import { SCREENS } from "../../components/responsive";
 import carService from "../../services/carService";
 import { GetCars_cars } from "../../services/carService/__generated__/GetCars";
 import { setTopCars } from "./slice";
-import { ThunkDispatch } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+import { ThunkDispatch, createSelector } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { makeSelectTopCars } from "./selectors";
+import MoonLoader from "react-spinners/MoonLoader";
 
 const TopCarsContainer = styled.div`
   ${tw`
@@ -50,19 +52,27 @@ const actionDispatch = (dispatch: any) => ({
   setTopCars: (cars: GetCars_cars[]) => dispatch(setTopCars(cars)),
 });
 
+const stateSelector = createSelector(makeSelectTopCars, (topCars) => ({
+  topCars,
+}));
+
 export function TopCars() {
   const [current, setCurrent] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: SCREENS.sm });
 
+  const { topCars } = useSelector(stateSelector);
   const { setTopCars } = actionDispatch(useDispatch());
 
   const fetchTopCars = async () => {
+    setIsLoading(true);
     const cars = await carService.getCars().catch((err) => {
       console.log("error: ", err);
     });
     console.log("Cars: ", cars);
     if (cars) setTopCars(cars);
+    setIsLoading(false);
   };
 
   const testCar: ICar = {
@@ -91,20 +101,29 @@ export function TopCars() {
     fetchTopCars();
   }, []);
 
-  const cars = [
-    <Car {...testCar}></Car>,
-    <Car {...testCar2}></Car>,
-    <Car {...testCar}></Car>,
-    <Car {...testCar2}></Car>,
-    <Car {...testCar}></Car>,
-    <Car {...testCar2}></Car>,
-  ];
+  // const cars = [
+  //   <Car {...testCar}></Car>,
+  //   <Car {...testCar2}></Car>,
+  //   <Car {...testCar}></Car>,
+  //   <Car {...testCar2}></Car>,
+  //   <Car {...testCar}></Car>,
+  //   <Car {...testCar2}></Car>,
+  // ];
+
+  const isEmptyTopCars = !topCars || topCars.length === 0;
+  const cars =
+    (!isEmptyTopCars &&
+      topCars.map((car) => <Car {...car} thumbnailSrc={car.thumbnailUrl} />)) ||
+    [];
 
   const numberOfDots = isMobile ? cars.length : Math.ceil(cars.length / 3);
+
+  if (isEmptyTopCars) return null;
 
   return (
     <TopCarsContainer>
       <Title>Explore our top deals</Title>
+      {isLoading && <MoonLoader />}
       <CarsContainer>
         <Carousel
           value={current}
